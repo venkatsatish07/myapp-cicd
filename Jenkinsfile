@@ -5,6 +5,7 @@ pipeline {
         IMAGE_NAME = "venkats061/myapp"
         IMAGE_TAG  = "1.0"
         DOCKER_CREDS = credentials('dockerhub-creds')
+        KUBECONFIG = "/var/lib/jenkins/.kube/config" // ✅ added
     }
 
     stages {
@@ -51,6 +52,7 @@ pipeline {
             steps {
                 echo 'Deploying application to Kubernetes...'
                 sh '''
+                  # Use Jenkins kubeconfig explicitly
                   kubectl apply -f k8s/deployment.yaml
                   kubectl apply -f k8s/service.yaml
                 '''
